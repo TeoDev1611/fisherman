@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Actualizar Base de Datos - Fisherman</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #fafafa;
+            color: #212121;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+            padding: 32px;
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header .logo {
+            font-size: 36px;
+            margin-right: 16px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        .card h2 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #212121;
+            display: flex;
+            align-items: center;
+        }
+
+        .card h2 .material-icons {
+            margin-right: 12px;
+            color: #1976d2;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #bbdefb;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1976d2;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #757575;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .textarea-container {
+            position: relative;
+            margin: 16px 0;
+        }
+
+        .textarea-container label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #757575;
+            margin-bottom: 8px;
+        }
+
+        #domains-textarea {
+            width: 100%;
+            height: 300px;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 13px;
+            line-height: 1.4;
+            resize: vertical;
+            background: #fafafa;
+            transition: border-color 0.3s;
+        }
+
+        #domains-textarea:focus {
+            outline: none;
+            border-color: #1976d2;
+            background: white;
+        }
+
+        .file-input-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        #file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-label {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            background: #f5f5f5;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .file-input-label:hover {
+            background: #e3f2fd;
+            border-color: #1976d2;
+            color: #1976d2;
+        }
+
+        .file-input-label .material-icons {
+            margin-right: 8px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'Roboto', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            margin: 4px;
+        }
+
+        .btn .material-icons {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .btn-primary {
+            background: #1976d2;
+            color: white;
+            box-shadow: 0 2px 4px rgba(25, 118, 210, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #1565c0;
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #757575;
+            border: 1px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .progress-container {
+            margin: 16px 0;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #1976d2;
+            width: 0%;
+            transition: width 0.3s;
+            border-radius: 2px;
+        }
+
+        .alert {
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+            display: none;
+            align-items: center;
+        }
+
+        .alert .material-icons {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+
+        .alert-success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+
+        .alert-error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            color: #1565c0;
+            border: 1px solid #90caf9;
+        }
+
+        .instructions {
+            background: #fff3e0;
+            border: 1px solid #ffcc02;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .instructions h3 {
+            color: #ef6c00;
+            margin-bottom: 12px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .instructions h3 .material-icons {
+            margin-right: 8px;
+        }
+
+        .instructions ul {
+            color: #bf360c;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: slideInUp 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><span class="logo">🎣</span>Fisherman Database Manager</h1>
+        <p>Actualiza la base de datos de dominios maliciosos para mejorar la protección</p>
+    </div>
+
+    <div class="container">
+        <!-- Estadísticas actuales -->
+        <div class="card">
+            <h2><span class="material-icons">analytics</span>Estado Actual de la Base de Datos</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div id="current-domains" class="stat-number">0</div>
+                    <div class="stat-label">Dominios Cargados</div>
+                </div>
+                <div class="stat-item">
+                    <div id="last-update" class="stat-number">Nunca</div>
+                    <div class="stat-label">Última Actualización</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instrucciones -->
+        <div class="card">
+            <div class="instructions">
+                <h3><span class="material-icons">info</span>Instrucciones</h3>
+                <ul>
+                    <li>Pega la lista de dominios maliciosos en el área de texto (un dominio por línea)</li>
+                    <li>O selecciona un archivo .txt con la lista de dominios</li>
+                    <li>Los dominios deben estar en formato: ejemplo.com (un dominio por línea)</li>
+                    <li>Las líneas que empiecen con # serán ignoradas</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Área de actualización -->
+        <div class="card">
+            <h2><span class="material-icons">cloud_upload</span>Actualizar Base de Datos</h2>
+            
+            <div class="file-input-container">
+                <input type="file" id="file-input" accept=".txt,.csv">
+                <label for="file-input" class="file-input-label">
+                    <span class="material-icons">attach_file</span>
+                    Seleccionar archivo de dominios
+                </label>
+            </div>
+
+            <div class="textarea-container">
+                <label for="domains-textarea">Lista de Dominios Maliciosos:</label>
+                <textarea id="domains-textarea" placeholder="Pega aquí tu lista de dominios maliciosos...
+Ejemplo:
+malicious-site.com
+phishing-example.net
+fake-bank.org
+..."></textarea>
+            </div>
+
+            <div class="progress-container" id="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <p style="margin-top: 8px; font-size: 14px; color: #757575;">Actualizando base de datos...</p>
+            </div>
+
+            <div id="alert-container"></div>
+
+            <div>
+                <button id="update-btn" class="btn btn-primary">
+                    <span class="material-icons">update</span>
+                    Actualizar Base de Datos
+                </button>
+                <button id="clear-btn" class="btn btn-secondary">
+                    <span class="material-icons">clear</span>
+                    Limpiar Texto
+                </button>
+                <button id="sample-btn" class="btn btn-secondary">
+                    <span class="material-icons">code</span>
+                    Cargar Ejemplo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="update-db.js"></script>
+</body>
+</html>

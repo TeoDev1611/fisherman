@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "*://*.phishing-example.com/*",
+      "resourceTypes": ["main_frame"]
+    }
+  },
+  {
+    "id": 2,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": ".*paypal-[a-z0-9]+\\.(com|net|org)/.*",
+      "resourceTypes": ["main_frame"]
+    }
+  },
+  {
+    "id": 3,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": ".*amazon-[a-z0-9]+\\.(net|org)/.*",
+      "resourceTypes": ["main_frame"]
+    }
+  },
+  {
+    "id": 4,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "regexFilter": ".*secure-[a-z0-9]+\\.(tk|ml|ga|cf)/.*",
+      "resourceTypes": ["main_frame"]
+    }
+  }
+]

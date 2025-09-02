@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 380px;
+            font-family: 'Roboto', sans-serif;
+            background: #fafafa;
+            color: #212121;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+            padding: 24px 20px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.05"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo {
+            font-size: 32px;
+            margin-bottom: 8px;
+            text-align: center;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            text-align: center;
+            font-weight: 300;
+        }
+        
+        .content-wrapper {
+            padding: 24px 20px 20px;
+        }
+        
+        .status-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .status-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+        
+        .status-safe {
+            border-left: 4px solid #4caf50;
+            background: linear-gradient(135deg, #f1f8e9 0%, #ffffff 100%);
+        }
+        
+        .status-warning {
+            border-left: 4px solid #ff9800;
+            background: linear-gradient(135deg, #fff8e1 0%, #ffffff 100%);
+        }
+        
+        .status-danger {
+            border-left: 4px solid #f44336;
+            background: linear-gradient(135deg, #ffebee 0%, #ffffff 100%);
+        }
+        
+        .status-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .status-icon {
+            font-size: 28px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .status-text {
+            flex: 1;
+        }
+        
+        .status-title {
+            font-weight: 500;
+            font-size: 16px;
+            margin-bottom: 2px;
+            color: #212121;
+        }
+        
+        .status-subtitle {
+            font-size: 12px;
+            color: #757575;
+            font-weight: 400;
+        }
+        
+        .warnings {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .warnings-title {
+            font-size: 12px;
+            font-weight: 500;
+            color: #757575;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .warnings-list {
+            list-style: none;
+        }
+        
+        .warning-item {
+            display: flex;
+            align-items: center;
+            padding: 4px 0;
+            font-size: 12px;
+            color: #616161;
+        }
+        
+        .warning-item::before {
+            content: '•';
+            color: #ff9800;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .stat-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+        
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1976d2;
+            margin-bottom: 4px;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 10px;
+            color: #757575;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            font-family: 'Roboto', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-outlined {
+            background: transparent;
+            color: #1976d2;
+            border: 2px solid #1976d2;
+        }
+        
+        .btn-outlined:hover {
+            background: #1976d2;
+            color: white;
+            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+        }
+        
+        .btn-contained {
+            background: #1976d2;
+            color: white;
+            box-shadow: 0 2px 4px rgba(25, 118, 210, 0.3);
+        }
+        
+        .btn-contained:hover {
+            background: #1565c0;
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
+            transform: translateY(-1px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(25, 118, 210, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn:disabled:hover {
+            transform: none !important;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid #e3f2fd;
+            border-radius: 50%;
+            border-top: 3px solid #1976d2;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        .loading-text {
+            color: #757575;
+            font-size: 14px;
+            font-weight: 400;
+        }
+        
+        .footer {
+            background: #f5f5f5;
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 11px;
+            color: #9e9e9e;
+            border-top: 1px solid #e0e0e0;
+            font-weight: 400;
+        }
+        
+        .material-icons {
+            font-size: inherit;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Ripple effect */
+        .btn {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Animaciones de entrada */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status-card, .stat-card {
+            animation: slideInUp 0.3s ease;
+        }
+
+        /* Mejoras de accesibilidad */
+        .btn:focus {
+            outline: 2px solid #1976d2;
+            outline-offset: 2px;
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid #1976d2;
+            outline-offset: 2px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 400px) {
+            body {
+                width: 320px;
+            }
+            
+            .content-wrapper {
+                padding: 20px 16px;
+            }
+            
+            .header {
+                padding: 20px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+<svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#74C0FC" d="M320 128C302.3 128 288 142.3 288 160C288 177.7 302.3 192 320 192C337.7 192 352 177.7 352 160C352 142.3 337.7 128 320 128zM224 160C224 107 267 64 320 64C373 64 416 107 416 160C416 201.8 389.3 237.4 352 250.5L352 508.4C414.9 494.1 462.2 438.7 463.9 371.9L447.8 386C437.8 394.7 422.7 393.7 413.9 383.7C405.1 373.7 406.2 358.6 416.2 349.8L480.2 293.8C489.2 285.9 502.8 285.9 511.8 293.8L575.8 349.8C585.8 358.5 586.8 373.7 578.1 383.7C569.4 393.7 554.2 394.7 544.2 386L528 371.9C525.9 485 433.6 576 320 576C206.4 576 114.1 485 112 371.9L95.8 386.1C85.8 394.8 70.7 393.8 61.9 383.8C53.1 373.8 54.2 358.7 64.2 349.9L128.2 293.9C137.2 286 150.8 286 159.8 293.9L223.8 349.9C233.8 358.6 234.8 373.8 226.1 383.8C217.4 393.8 202.2 394.8 192.2 386.1L176.1 372C177.9 438.8 225.2 494.2 288 508.5L288 250.6C250.7 237.4 224 201.9 224 160.1z"/></svg>
+            </div>
+            <h1 class="title">Fisherman</h1>
+            <p class="subtitle">Protección Anti-Phishing Avanzada</p>
+        </div>
+    </div>
+    
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p class="loading-text">Analizando seguridad de la página...</p>
+    </div>
+    
+    <div id="content" style="display: none;">
+        <div class="content-wrapper">
+            <div id="status-card" class="status-card">
+                <div class="status-header">
+                    <div id="status-icon" class="status-icon"></div>
+                    <div class="status-text">
+                        <div id="status-title" class="status-title"></div>
+                        <div id="status-subtitle" class="status-subtitle"></div>
+                    </div>
+                </div>
+                <div id="warnings" class="warnings" style="display: none;">
+                    <div class="warnings-title">Problemas detectados</div>
+                    <ul id="warnings-list" class="warnings-list"></ul>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div id="blocked-count" class="stat-number">0</div>
+                    <div class="stat-label">Amenazas<br>Bloqueadas</div>
+                </div>
+                <div class="stat-card">
+                    <div id="scanned-count" class="stat-number">0</div>
+                    <div class="stat-label">Páginas<br>Analizadas</div>
+                </div>
+            </div>
+            
+            <div class="actions">
+                <button id="report-site" class="btn btn-outlined">
+                    <span class="material-icons" style="font-size: 16px; margin-right: 4px;">report</span>
+                    Reportar
+                </button>
+                <button id="whitelist-site" class="btn btn-contained">
+                    <span class="material-icons" style="font-size: 16px; margin-right: 4px;">verified</span>
+                    Confiar
+                </button>
+            </div>
+            
+            <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e0e0e0;">
+                <button id="update-db-btn" class="btn btn-outlined" style="width: 100%;">
+                    <span class="material-icons" style="font-size: 16px; margin-right: 4px;">update</span>
+                    Actualizar Base de Datos
+                </button>
+                <div id="db-info" style="margin-top: 8px; font-size: 11px; color: #757575; text-align: center;">
+                    Cargando información...
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        Fisherman Security Extension v1.0 • Powered by Material Design
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

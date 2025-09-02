@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "Fisherman - Anti-Phishing Protection",
+  "version": "1.0",
+  "description": "Protege contra sitios web de phishing y URLs maliciosas",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "declarativeNetRequest",
+    "tabs",
+    "alarms",
+    "notifications"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*",
+    "https://phish.co.za/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Fisherman Protection",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "phishing_rules",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  }
+}
